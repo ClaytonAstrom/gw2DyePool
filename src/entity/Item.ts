@@ -1,10 +1,13 @@
 import { Entity, PrimaryColumn, Column } from "typeorm";
 
 @Entity()
-export default class User {
+export default class Item {
   @PrimaryColumn()
-  name!: string;
+  id!: number;
 
   @Column()
-  key!: string;
+  "chat_link"!: string;
+
+  @Column()
+  icon!: string;
 }

@@ -1,0 +1,4 @@
+src/migration
+dist
+build
+node_modules
