@@ -5,7 +5,7 @@ import time
 colors_baseurl = 'https://api.guildwars2.com/v2/colors'
 
 def call_api(endpoint):
-    headers = {'User-agent': 'dyePoolScrapper'}
+    headers = {'User-agent': 'dyePoolScraper'}
     url = 'https://api.guildwars2.com/v2/' + str(endpoint)
     response = requests.get(url, headers=headers)
     if(response.status_code == 200):
