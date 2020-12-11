@@ -14,5 +14,5 @@ export default class Color {
 
   @OneToOne(() => Item)
   @JoinColumn()
-  item!: number;
+  item!: Item;
 }
