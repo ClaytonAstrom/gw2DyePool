@@ -9,10 +9,19 @@ export default class Color {
   @Column()
   name!: string;
 
-  @Column("int", { array: true })
-  "base_rgb"!: number[];
+  @Column("int", { array: true, nullable: true })
+  cloth!: number[] | null;
+
+  @Column("int", { array: true, nullable: true })
+  leather!: number[] | null;
+
+  @Column("int", { array: true, nullable: true })
+  metal!: number[] | null;
+
+  @Column("int", { array: true, nullable: true })
+  fur!: number[] | null;
 
   @OneToOne(() => Item)
   @JoinColumn()
-  item!: number;
+  item!: Item;
 }
