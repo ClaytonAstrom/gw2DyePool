@@ -15,6 +15,9 @@ export default class Routes {
     this.router.route("/account").post((req, res) => {
       this.userController.updateUser(req, res);
     });
+    this.router.route("/userDyes").get((_req, res) => {
+      this.userController.getUsersWithColors(res);
+    });
     app.use("/api", this.router);
   }
 }
