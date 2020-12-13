@@ -1,8 +1,9 @@
 import { Entity, PrimaryColumn, Column, OneToOne, JoinColumn } from "typeorm";
-import Item from "./Item";
+import { AbstractColor } from "./AbstractColor";
+import { AbstractItem } from "./AbstractItem";
 
 @Entity()
-export default class Color {
+export default class Color implements AbstractColor {
   @PrimaryColumn()
   id!: number;
 
@@ -21,7 +22,7 @@ export default class Color {
   @Column("int", { array: true, nullable: true })
   fur!: number[] | null;
 
-  @OneToOne(() => Item)
+  @OneToOne("Item", "color")
   @JoinColumn()
-  item!: Item;
+  item!: AbstractItem;
 }
