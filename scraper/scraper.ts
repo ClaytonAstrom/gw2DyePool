@@ -58,7 +58,7 @@ const storeInfo = async (color: ColorResponse, item: ItemResponse) => {
   await createConnection();
 
   const colors = await callApi("colors?ids=all");
-  let itemSet: number[] = [];
+  const itemSet: number[] = [];
   const promises: Promise<unknown>[] = [];
   lodash.each(colors, (color) => {
     if (Object.prototype.hasOwnProperty.call(color, "item")) {
@@ -75,7 +75,6 @@ const storeInfo = async (color: ColorResponse, item: ItemResponse) => {
               storeInfo(lodash.find(colors, { item: item.id }), item)
             );
           });
-          itemSet = [];
         })
         .catch((e) => {
           console.log(e);
