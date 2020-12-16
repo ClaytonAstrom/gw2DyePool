@@ -1,7 +1,6 @@
 import axios from "axios";
 import { Request, Response } from "express";
 import { getConnection } from "typeorm";
-import promise from "bluebird";
 import User from "../../entity/User";
 
 export default class UserController {
@@ -55,20 +54,23 @@ export default class UserController {
     const userRepo = this.connection.getRepository(User);
     const userObject: { [index: string]: number[] } = {};
     const users = await userRepo.find();
-    return promise
-      .each(users, async (user) => {
-        try {
-          const userColors = await axios.get(
+    const promises: Promise<unknown>[] = [];
+    users.forEach((user) => {
+      promises.push(
+        axios
+          .get(
             `https://api.guildwars2.com/v2/account/dyes?access_token=${user.key}`
-          );
-          userObject[user.name] = userColors.data;
-        } catch (e) {
-          console.log(e);
-        }
-      })
-      .then(() => {
-        return userObject;
-      });
+          )
+          .then((userColors) => {
+            userObject[user.name] = userColors.data;
+          })
+          .catch(() => {
+            console.log(user);
+          })
+      );
+    });
+    await Promise.all(promises);
+    return userObject;
   }
 
   public async getUsersWithColors(res: Response): Promise<void> {
