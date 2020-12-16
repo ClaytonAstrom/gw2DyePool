@@ -1,4 +1,4 @@
-import { Entity, PrimaryColumn, Column, OneToOne, JoinColumn } from "typeorm";
+import { Entity, PrimaryColumn, Column, OneToOne } from "typeorm";
 import { AbstractColor } from "./AbstractColor";
 import { AbstractItem } from "./AbstractItem";
 
@@ -14,6 +14,5 @@ export default class Item implements AbstractItem {
   icon!: string;
 
   @OneToOne("Color", "item", { cascade: true })
-  @JoinColumn()
   color!: AbstractColor;
 }
