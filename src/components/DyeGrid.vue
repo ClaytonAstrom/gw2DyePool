@@ -5,14 +5,18 @@
       <label>Dye Search:</label>
     </div>
     <div class="wrapper">
-      <div
-        is="DyeCard"
-        v-for="color in filteredList"
-        :key="color.color.id"
-        class="card"
-        :color="color"
-      ></div>
+      <div class="scrollable">
+        <div
+          is="DyeCard"
+          v-for="color in filteredList"
+          :key="color.color.id"
+          class="card"
+          :color="color"
+          @click.native="isVisible = !isVisible"
+        ></div>
+      </div>
     </div>
+    <div v-show="isVisible" class="dyeExpandedView"><p></p></div>
   </div>
 </template>
 
@@ -29,6 +33,8 @@ import { Color } from "./ColorDefinition";
 })
 export default class DyeGrid extends Vue {
   colors: Color[] = [];
+
+  isVisible = false;
 
   search = "";
 
@@ -89,8 +95,13 @@ export default class DyeGrid extends Vue {
 }
 
 .wrapper {
+  overflow: hidden;
+}
+.scrollable {
+  overflow-y: auto;
   display: flex;
   max-width: 800px;
+  max-height: 50vh;
   flex-wrap: wrap;
   padding-top: 12px;
 }
@@ -103,5 +114,11 @@ export default class DyeGrid extends Vue {
   &:hover {
     transform: scale(1.1);
   }
+}
+
+.dyeExpandedView {
+  width: 780px;
+  background-color: rgb(145, 218, 218);
+  margin: 20px;
 }
 </style>
