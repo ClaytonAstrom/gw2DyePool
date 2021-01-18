@@ -54,21 +54,22 @@ export default class DyeGrid extends Vue {
 }
 
 .search-wrapper {
-  margin: 10px;
+  margin: 10px 60px 10px 0px;
   position: relative;
   label {
     position: absolute;
     font-size: 12px;
-    color: rgba(0, 0, 0, 0.5);
+    color: rgb(0, 0, 0);
     top: 8px;
     left: 12px;
     z-index: -1;
     transition: 0.15s all ease-in-out;
   }
   input {
+    width: 650px;
     padding: 4px 12px;
     color: rgba(0, 0, 0, 0.7);
-    border: 1px solid rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(0, 0, 0, 0.349);
     transition: 0.15s all ease-in-out;
     background: white;
     &:focus {
