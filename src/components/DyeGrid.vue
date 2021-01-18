@@ -1,26 +1,42 @@
 <template>
-  <div class="photo-container">
-    <img
-      is="DyeSmall"
-      v-for="color in colors"
-      :key="color.color.id"
-      :color="color"
-    />
+  <div class="dyeGrid">
+    <div class="search-wrapper">
+      <input v-model="search" type="text" placeholder="Search for a dye.." />
+      <label>Dye Search:</label>
+    </div>
+    <div class="wrapper">
+      <div
+        is="DyeCard"
+        v-for="color in filteredList"
+        :key="color.color.id"
+        class="card"
+        :color="color"
+      ></div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import axios from "axios";
-import DyeSmall from "./DyeSmall.vue";
+import DyeCard from "./DyeCard.vue";
+import { Color } from "./ColorDefinition";
 
 @Component({
   components: {
-    DyeSmall,
+    DyeCard,
   },
 })
 export default class DyeGrid extends Vue {
-  colors = [];
+  colors: Color[] = [];
+
+  search = "";
+
+  get filteredList(): Color[] {
+    return this.colors.filter((color) => {
+      return color.color.name.toLowerCase().includes(this.search.toLowerCase());
+    });
+  }
 
   async mounted(): Promise<void> {
     const response = await axios.get("/api/colors");
@@ -30,13 +46,61 @@ export default class DyeGrid extends Vue {
 </script>
 
 <style scoped lang="scss">
-photo-container {
-  width: 100%;
-  display: grid;
-  justify-content: space-around;
-  justify-items: center;
+.dyeGrid {
+  display: flex;
   align-items: center;
-  grid-template-columns: repeat(auto-fill, 60px);
-  grid-template-rows: repeat(auto-fill, 60px);
+  justify-content: center;
+  flex-direction: column;
+}
+
+.search-wrapper {
+  margin: 10px;
+  position: relative;
+  label {
+    position: absolute;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.5);
+    top: 8px;
+    left: 12px;
+    z-index: -1;
+    transition: 0.15s all ease-in-out;
+  }
+  input {
+    padding: 4px 12px;
+    color: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    transition: 0.15s all ease-in-out;
+    background: white;
+    &:focus {
+      outline: none;
+      transform: scale(1.05);
+      & + label {
+        font-size: 10px;
+        transform: translateY(-24px) translateX(-12px);
+      }
+    }
+    &::-webkit-input-placeholder {
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.5);
+      font-weight: 100;
+    }
+  }
+}
+
+.wrapper {
+  display: flex;
+  max-width: 800px;
+  flex-wrap: wrap;
+  padding-top: 12px;
+}
+.card {
+  box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px,
+    rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+  width: 75px;
+  margin: 12px;
+  transition: 0.15s all ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
 }
 </style>
