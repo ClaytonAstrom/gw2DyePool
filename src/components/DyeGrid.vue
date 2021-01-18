@@ -12,7 +12,7 @@
           :key="color.color.id"
           class="card"
           :color="color"
-          @click.native="isVisible = !isVisible"
+          @click.native="isVisible = true"
         ></div>
       </div>
     </div>
